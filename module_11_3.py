@@ -4,17 +4,17 @@ def introspection_info(obj):
     type_obj = type(obj)
 
     # Атрибуты объекта
-    attribute_obj = dir(obj)
+    attribute_obj_list = [attribute_obj for attribute_obj in dir(obj) if not callable(getattr(obj, attribute_obj))]
 
     # Методы объекта
-    method_obj_list = [method_obj for method_obj in attribute_obj if callable(getattr(obj, method_obj))]
+    method_obj_list = [method_obj for method_obj in dir(obj) if callable(getattr(obj, method_obj))]
 
     # Получение модуля, к которому принадлежит объект
     modul_obj = getattr(obj, '__module__', None)
 
     return {
             "type": type_obj.__name__,
-            "attributes": attribute_obj,
+            "attributes": attribute_obj_list,
             "methods": method_obj_list,
             "module": modul_obj
             }
